@@ -193,6 +193,24 @@
 </pre></div>
 
 
+<div class="hlcode"><pre><span class="n">class</span> <span class="n">UrlGenerator</span><span class="p">(</span><span class="n">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="n">def</span> <span class="n">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">root_url</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">self</span><span class="p">.</span><span class="n">url</span> <span class="o">=</span> <span class="n">root_url</span>
+
+    <span class="n">def</span> <span class="n">__getattr__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span><span class="o">:</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="o">==</span> <span class="err">&#39;</span><span class="n">get</span><span class="err">&#39;</span> <span class="n">or</span> <span class="n">item</span> <span class="o">==</span> <span class="err">&#39;</span><span class="n">post</span><span class="err">&#39;</span><span class="o">:</span>
+            <span class="n">print</span> <span class="n">self</span><span class="p">.</span><span class="n">url</span>
+        <span class="k">return</span> <span class="n">UrlGenerator</span><span class="p">(</span><span class="err">&#39;</span><span class="p">{}</span><span class="o">/</span><span class="p">{}</span><span class="err">&#39;</span><span class="p">.</span><span class="n">format</span><span class="p">(</span><span class="n">self</span><span class="p">.</span><span class="n">url</span><span class="p">,</span> <span class="n">item</span><span class="p">))</span>
+
+
+<span class="n">url_gen</span> <span class="o">=</span> <span class="n">UrlGenerator</span><span class="p">(</span><span class="err">&#39;</span><span class="n">http</span><span class="o">:</span><span class="c1">//xxxx&#39;)</span>
+<span class="n">url_gen</span><span class="p">.</span><span class="n">users</span><span class="p">.</span><span class="n">show</span><span class="p">.</span><span class="n">get</span>
+
+<span class="o">&gt;&gt;&gt;</span> 
+<span class="nl">http:</span><span class="c1">//xxxx/users/show</span>
+</pre></div>
+
+
 <h3 id="__setattr__"><code>__setattr__</code></h3>
 <p><code>__setattr__(self, name, value)</code> <br />
 可用于修改属性，可用于任意属性。</p>
@@ -506,7 +524,7 @@ TypeError: getattr(): attribute name must be string
       <span>
         <p>Copyright © 2019 Xu XueHua.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-08-23 09:11:22</p>
+        <p>Site Generated 2019-08-25 18:08:51</p>
       </span>
     </div>
 

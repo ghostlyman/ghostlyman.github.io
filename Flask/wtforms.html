@@ -44,6 +44,13 @@
 <li><a href="#textareafield">TextAreaField</a></li>
 </ul>
 </li>
+<li><a href="#_2">实例化字段类</a><ul>
+<li><a href="#label">label</a></li>
+<li><a href="#render_kw">render_kw</a></li>
+<li><a href="#validators">validators</a></li>
+<li><a href="#default">default</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#flask-wtf">Flask-WTF</a><ul>
@@ -141,12 +148,43 @@
 </pre></div>
 
 
+<h2 id="_2">实例化字段类</h2>
+<h3 id="label">label</h3>
+<p>字段标签<label>的值，也就是渲染后显示在输入字段前的文字</p>
+<h3 id="render_kw">render_kw</h3>
+<p>一个字典，用来设置对应的HTML <input> 标签属性，比如传入<code>{'placeholder': 'Your name'}</code> ， 渲染后的HTML代码会将<input> 标签的placeholder属性设置为Your name</p>
+<h3 id="validators">validators</h3>
+<p>一个列表，包含一系列验证器，会在表单提交后被逐一调用验证表单数据</p>
+<p>message 参数用来传入自定义错误消息，乳沟没有设置则使用内置的英文错误消息</p>
+<p><img alt="img" src="https://snipboard.io/KXSlk5.jpg" /></p>
+<div class="hlcode"><pre><span class="n">name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="err">&#39;</span><span class="n">Your</span> <span class="n">Name</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">DataRequired</span><span class="p">(</span><span class="n">message</span><span class="o">=</span><span class="n">u</span><span class="err">&#39;名字不能空&#39;</span><span class="p">)])</span>
+</pre></div>
+
+
+<h3 id="default">default</h3>
+<p>字符串或者可调用对象，用来为表单字段设置默认值</p>
 <h1 id="flask-wtf">Flask-WTF</h1>
 <p>集成了WTForms，可以在Flask中更方便的使用WTForms，附加了reCAPTHCA 支持</p>
 <div class="hlcode"><pre><span class="n">pipenv</span> <span class="n">install</span> <span class="n">flask</span><span class="o">-</span><span class="n">wtf</span>
 </pre></div>
 
 
+<p>Flask-WTF定义表单时，仍然使用WTForms提供的字段类和验证器，创建方式是完全相同的，只不过表单类要集成Flask-WTF提供的Flask Form类, Flask Form 类继承自Form类，进行一些设置，并附加了类，并附加了一些辅助方法，以便与Flask集成</p>
+<div class="hlcode"><pre><span class="n">from</span> <span class="n">flask_wtf</span> <span class="n">import</span> <span class="n">FlaskForm</span>
+<span class="n">from</span> <span class="n">wtforms</span> <span class="n">import</span> <span class="n">StringField</span><span class="p">,</span> <span class="n">PasswordField</span><span class="p">,</span> <span class="n">BooleanField</span><span class="p">,</span> <span class="n">SubmitField</span>
+<span class="n">from</span> <span class="n">wtforms</span><span class="p">.</span><span class="n">validators</span> <span class="n">import</span> <span class="n">DataRequired</span><span class="p">,</span> <span class="n">Length</span>
+
+<span class="n">class</span> <span class="n">LoginForm</span><span class="p">(</span><span class="n">FlaskForm</span><span class="p">)</span><span class="o">:</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="err">&#39;</span><span class="n">Username</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">DataRequired</span><span class="p">()])</span>
+        <span class="n">password</span> <span class="o">=</span> <span class="n">PasswordField</span><span class="p">(</span><span class="err">&#39;</span><span class="n">Password</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">DataRequired</span><span class="p">(),</span> <span class="n">Length</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">128</span><span class="p">)])</span>
+        <span class="n">remember</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="err">&#39;</span><span class="n">Remember</span> <span class="n">me</span><span class="err">&#39;</span><span class="p">)</span>
+        <span class="n">submit</span> <span class="o">=</span> <span class="n">SubmitField</span><span class="p">(</span><span class="err">&#39;</span><span class="n">Login</span><span class="err">&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+<blockquote>
+<p>配置键WTF_CSRF_ENABLED用来设置是否开启CSRF保护，默认为True，Flask-WTF会自动在实例化表单类时添加一个包含CSRF令牌值的隐藏字段，字段名为csrf_token</p>
+</blockquote>
 <h2 id="csrf">CSRF</h2>
 <p>Flask-WTF 默认为每个表单启用了CSRF保护， 自动生成和验证CSRF令牌，需要程序密钥来进行签名</p>
 <div class="hlcode"><pre><span class="n">app</span><span class="p">.</span><span class="n">secret_key</span> <span class="o">=</span> <span class="err">&#39;</span><span class="n">secret</span> <span class="n">string</span><span class="err">&#39;</span>
@@ -156,7 +194,7 @@
       <span>
         <p>Copyright © 2019 Xu XueHua.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-08-23 09:11:22</p>
+        <p>Site Generated 2019-08-25 18:08:51</p>
       </span>
     </div>
 
