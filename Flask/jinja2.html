@@ -247,6 +247,29 @@
 </pre></div>
 
 
+<p>宏接收表单类实例的字段属性和附加的关键字参数作为输入，返回包含label标签，表单字段，错误消息列表的HTML表单字段代码</p>
+<div class="hlcode"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">form_field</span><span class="o">(</span><span class="nv">field</span><span class="o">)</span> <span class="cp">%}</span>
+  <span class="cp">{{</span> <span class="nv">field.label</span> <span class="cp">}}</span><span class="nt">&lt;br&gt;</span>
+  <span class="cp">{{</span> <span class="nv">field</span><span class="o">(**</span><span class="nv">kwargs</span><span class="o">)</span> <span class="cp">}}</span><span class="nt">&lt;br&gt;</span>
+    <span class="cp">{%</span> <span class="k">if</span> <span class="nv">field.errors</span> <span class="cp">%}</span>
+        <span class="cp">{%</span> <span class="k">for</span> <span class="nv">error</span> <span class="k">in</span> <span class="nv">field.errors</span> <span class="cp">%}</span>
+        <span class="nt">&lt;small</span> <span class="na">class=</span><span class="s">&quot;error&quot;</span><span class="nt">&gt;</span><span class="cp">{{</span> <span class="nv">error</span> <span class="cp">}}</span><span class="nt">&lt;/small&gt;&lt;br&gt;</span>
+        <span class="cp">{%</span> <span class="k">endfor</span> <span class="cp">%}</span>
+    <span class="cp">{%</span> <span class="k">endif</span> <span class="cp">%}</span>
+<span class="cp">{%</span> <span class="k">endmacro</span> <span class="cp">%}</span>
+</pre></div>
+
+
+<div class="hlcode"><pre><span class="p">{</span><span class="o">%</span> <span class="nb">from</span> <span class="s1">&#39;macros.html&#39;</span> <span class="k">import</span> <span class="nx">form_field</span> <span class="o">%</span><span class="p">}</span>
+<span class="o">&lt;</span><span class="nb">form</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;post&quot;</span><span class="o">&gt;</span>
+    <span class="p">{{</span> <span class="nx">form.csrf_token</span> <span class="p">}}</span>
+    <span class="p">{{</span> <span class="nx">form_field</span><span class="p">(</span><span class="nx">form.username</span><span class="p">)</span> <span class="p">}}</span>
+    <span class="p">{{</span> <span class="nx">form_field</span><span class="p">(</span><span class="nx">form.password</span><span class="p">)</span> <span class="p">}}</span>
+        <span class="nx">...</span>
+<span class="o">&lt;/</span><span class="nb">form</span><span class="o">&gt;</span>
+</pre></div>
+
+
 <h2 id="_5">加载静态资源</h2>
 <div class="hlcode"><pre><span class="cp">{%</span> <span class="k">macro</span> <span class="nv">static_file</span><span class="o">(</span><span class="nv">type</span><span class="o">,</span> <span class="nv">filename_or_url</span><span class="o">,</span> <span class="nv">local</span><span class="o">=</span><span class="kp">True</span><span class="o">)</span> <span class="cp">%}</span>
     <span class="cp">{%</span> <span class="k">if</span> <span class="nv">local</span> <span class="cp">%}</span>
@@ -505,7 +528,7 @@
       <span>
         <p>Copyright © 2019 Xu XueHua.
         Powered by <a href="http://simiki.org/" target="_blank">Simiki</a>.</p>
-        <p>Site Generated 2019-08-25 18:08:51</p>
+        <p>Site Generated 2019-09-22 23:06:25</p>
       </span>
     </div>
 
